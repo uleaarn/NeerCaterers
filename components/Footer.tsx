@@ -58,9 +58,12 @@ const Footer: React.FC = () => {
         {/* Operational Note */}
         <div className="col-span-1">
           <h4 className="text-[10px] uppercase tracking-[0.3em] text-[#7A7A7A] mb-8 font-medium">Engagement Status</h4>
-          <p className="text-[#7A7A7A] text-sm leading-relaxed font-light italic">
+          <p className="text-[#7A7A7A] text-sm leading-relaxed font-light italic mb-4">
             "To preserve our commitment to logistical absolute, we maintain a restricted production schedule. We are currently accepting consultations for the 2025-2026 season."
           </p>
+          <Link to="/admin" className="text-[8px] tracking-[0.3em] uppercase text-[#7A7A7A]/40 hover:text-[#C6A15B] transition-colors">
+            Staff Entrance
+          </Link>
         </div>
       </div>
 

@@ -48,7 +48,14 @@ export interface Message {
   content: string;
 }
 
-export type InquiryStatus = 'New' | 'Contacted' | 'Qualified' | 'Booked' | 'Closed';
+export type InquiryStatus = 
+  | 'New Inquiry' 
+  | 'Qualified – Needs Follow-up' 
+  | 'Proposal Sent' 
+  | 'Revision in Progress' 
+  | 'Tentative Hold' 
+  | 'Confirmed' 
+  | 'Closed – Lost';
 
 export interface Inquiry {
   id: string;

@@ -61,7 +61,7 @@ const Contact: React.FC = () => {
       dietaryMandates: formData.dietaryMandates,
       cuisines: formData.cuisines,
       internalNotes: formData.notes,
-      status: 'New' as InquiryStatus,
+      status: 'New Inquiry' as InquiryStatus,
       assignedTo: 'Unassigned',
       timestamp: new Date().toLocaleString()
     };
@@ -77,6 +77,9 @@ const Contact: React.FC = () => {
 
     setSubmitted(true);
   };
+
+  // Get today's date in YYYY-MM-DD for the 'min' attribute
+  const today = new Date().toISOString().split('T')[0];
 
   if (submitted) {
     return (
@@ -155,6 +158,7 @@ const Contact: React.FC = () => {
                 <div className="flex flex-col space-y-3">
                   <label className="text-[10px] uppercase tracking-widest text-[#7A7A7A]">Engagement Classification</label>
                   <select 
+                    required
                     value={formData.type}
                     onChange={(e) => setFormData({...formData, type: e.target.value})}
                     className="bg-transparent border-b border-[#C6A15B]/20 py-2 focus:border-[#C6A15B] outline-none transition-colors text-sm font-light appearance-none cursor-pointer"
@@ -166,35 +170,38 @@ const Contact: React.FC = () => {
                   </select>
                 </div>
                 <div className="flex flex-col space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest text-[#7A7A7A]">Proposed Event Date / Seasonal Window</label>
+                  <label className="text-[10px] uppercase tracking-widest text-[#7A7A7A]">Proposed Event Date</label>
                   <input 
-                    type="text" 
-                    placeholder="Preferred Date"
+                    required
+                    type="date" 
+                    min={today}
                     value={formData.date}
                     onChange={(e) => setFormData({...formData, date: e.target.value})}
-                    className="bg-transparent border-b border-[#C6A15B]/20 py-2 focus:border-[#C6A15B] outline-none transition-colors text-sm font-light" 
+                    className="bg-transparent border-b border-[#C6A15B]/20 py-2 focus:border-[#C6A15B] outline-none transition-colors text-sm font-light appearance-none w-full" 
                   />
-                  <span className="text-[9px] text-[#7A7A7A] italic">Assists in immediate availability and feasibility cross-referencing.</span>
+                  <span className="text-[9px] text-[#7A7A7A] italic">Valid future date required for internal surge-priority and lead-heat calculations.</span>
                 </div>
                 <div className="flex flex-col space-y-3">
                   <label className="text-[10px] uppercase tracking-widest text-[#7A7A7A]">Estimated Guest Volume</label>
                   <input 
+                    required
                     type="text" 
                     value={formData.guests}
                     onChange={(e) => setFormData({...formData, guests: e.target.value})}
                     className="bg-transparent border-b border-[#C6A15B]/20 py-2 focus:border-[#C6A15B] outline-none transition-colors text-sm font-light" 
                   />
-                  <span className="text-[9px] text-[#7A7A7A] italic">Range is sufficient for initial staffing and equipment modeling.</span>
+                  <span className="text-[9px] text-[#7A7A7A] italic">Numeric estimate required (e.g., 250). Used for strategic tiering and production volume modeling.</span>
                 </div>
                 <div className="flex flex-col space-y-3">
                   <label className="text-[10px] uppercase tracking-widest text-[#7A7A7A]">Proposed Venue / Geographic Location</label>
                   <input 
+                    required
                     type="text" 
                     value={formData.location}
                     onChange={(e) => setFormData({...formData, location: e.target.value})}
                     className="bg-transparent border-b border-[#C6A15B]/20 py-2 focus:border-[#C6A15B] outline-none transition-colors text-sm font-light" 
                   />
-                  <span className="text-[9px] text-[#7A7A7A] italic">Specify venue name or general municipality (NJ, NY, or PA).</span>
+                  <span className="text-[9px] text-[#7A7A7A] italic">Specify venue name or City/State. Required for logistical feasibility and travel-risk assessment.</span>
                 </div>
               </div>
             </div>

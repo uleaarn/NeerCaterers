@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AIConcierge from './components/AIConcierge';
 
-// Executive-level Code Splitting: Lazy load all page components
+// Executive-level Code Splitting
 const Home = lazy(() => import('./pages/Home'));
 const Cuisines = lazy(() => import('./pages/Cuisines'));
 const DetailedMenu = lazy(() => import('./pages/DetailedMenu'));
@@ -14,11 +14,9 @@ const Events = lazy(() => import('./pages/Events'));
 const Process = lazy(() => import('./pages/Process'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 
-/**
- * Reset scroll position on navigation for a seamless user experience.
- */
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -27,9 +25,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-/**
- * A refined, minimalist loading state for route transitions.
- */
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#F6F6F4]">
     <div className="flex flex-col items-center animate-pulse">
@@ -39,6 +34,12 @@ const LoadingFallback = () => (
   </div>
 );
 
+// Basic Route Guard
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+  const isAuthenticated = sessionStorage.getItem('neer_auth') === 'true';
+  return isAuthenticated ? <>{children}</> : <Navigate to="/admin" replace />;
+};
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -46,12 +47,10 @@ const App: React.FC = () => {
       <div className="min-h-screen flex flex-col selection:bg-[#C6A15B] selection:text-white bg-[#F6F6F4]">
         <Header />
         <main className="flex-grow">
-          {/* Suspense boundary manages the loading state of lazily loaded components */}
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route index element={<Home />} />
               <Route path="/" element={<Home />} />
-              
               <Route path="/cuisines" element={<Cuisines />} />
               <Route path="/menu" element={<DetailedMenu />} />
               <Route path="/stations" element={<LiveStations />} />
@@ -61,9 +60,16 @@ const App: React.FC = () => {
               <Route path="/privacy" element={<Privacy />} />
               
               {/* Internal Operations Routes */}
-              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route 
+                path="/admin/dashboard" 
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                } 
+              />
 
-              {/* Catch-all redirection to Home */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>

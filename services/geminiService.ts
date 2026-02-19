@@ -25,7 +25,6 @@ const withRetry = async <T>(fn: () => Promise<T>, retries = 3, delay = 1500): Pr
 
 export const getConciergeResponse = async (history: Message[]): Promise<string> => {
   try {
-    // Generate new instance per request to ensure latest environment variables/keys
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
     
     const contents = history.map(msg => ({
@@ -33,13 +32,12 @@ export const getConciergeResponse = async (history: Message[]): Promise<string> 
       parts: [{ text: msg.content }]
     }));
 
-    // Wrap the API call in our retry logic to mitigate 503/504 outages
     const response = await withRetry(() => ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: contents,
       config: {
-        systemInstruction: SYSTEM_PROMPT,
-        temperature: 0.7,
+        systemInstruction: SYSTEM_PROMPT + "\n\nCRITICAL OPERATIONS RULE: Do not offer the booking link until the client has explicitly provided Event Type, Date, Guest Count, and City. Incomplete inquiries are non-actionable.",
+        temperature: 0.5,
         topP: 0.8,
       },
     }));
