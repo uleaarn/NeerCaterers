@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { DETAILED_MENUS } from '../constants';
 import { MenuCuisine, MenuDish } from '../types';
 
@@ -264,12 +264,12 @@ const DetailedMenu: React.FC = () => {
           <p className="text-white/60 font-light max-w-xl mx-auto mb-12">
             The dishes listed here are architectural components. We recommend a consultation to discuss the flow and narrative of your specific event.
           </p>
-          <a 
-            href="#/contact" 
+          <Link 
+            to="/contact" 
             className="inline-block px-12 py-5 border border-[#C6A15B] text-[#C6A15B] uppercase tracking-widest text-[10px] hover:bg-[#C6A15B] hover:text-white transition-all duration-500"
           >
             Initiate Consultation Process
-          </a>
+          </Link>
         </div>
       </section>
       

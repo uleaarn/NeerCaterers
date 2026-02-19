@@ -70,14 +70,14 @@ const Dashboard: React.FC = () => {
               <tr className="border-b border-neutral-100 bg-neutral-50">
                 <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">ID / Time</th>
                 <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Client Detail</th>
-                <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Event Strategy</th>
+                <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Logistics & Scale</th>
+                <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Culinary Arch.</th>
                 <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Status</th>
-                <th className="p-6 text-[10px] tracking-[0.2em] uppercase text-[#7A7A7A] font-medium">Internal Notes</th>
               </tr>
             </thead>
             <tbody>
               {filteredInquiries.map((inq) => (
-                <tr key={inq.id} className="border-b border-neutral-50 hover:bg-[#F6F6F4]/50 transition-colors">
+                <tr key={inq.id} className="border-b border-neutral-50 hover:bg-[#F6F6F4]/50 transition-colors align-top">
                   <td className="p-6">
                     <div className="text-[11px] font-medium text-[#1C1C1C] mb-1">{inq.id}</div>
                     <div className="text-[9px] text-[#7A7A7A]">{inq.timestamp}</div>
@@ -90,13 +90,22 @@ const Dashboard: React.FC = () => {
                   <td className="p-6">
                     <div className="text-[11px] uppercase tracking-wider text-[#1C1C1C] mb-1">{inq.eventType}</div>
                     <div className="text-[10px] text-[#7A7A7A]">{inq.eventDate} • {inq.guestCount} Guests</div>
-                    <div className="text-[10px] text-[#7A7A7A] italic mt-1">{inq.location}</div>
+                    <div className="text-[10px] text-[#C6A15B] italic mt-1">{inq.location}</div>
+                  </td>
+                  <td className="p-6">
+                    <div className="text-[10px] font-medium text-[#1C1C1C] mb-1 uppercase tracking-tighter">{inq.natureOfEvent}</div>
+                    <div className="text-[9px] text-[#7A7A7A] uppercase tracking-widest">{inq.serviceStyle} • {inq.dietaryMandates}</div>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {inq.cuisines?.map(c => (
+                        <span key={c} className="text-[8px] px-1 bg-[#1C1C1C] text-[#C6A15B] uppercase">{c}</span>
+                      ))}
+                    </div>
                   </td>
                   <td className="p-6">
                     <select 
                       value={inq.status}
                       onChange={(e) => updateStatus(inq.id, e.target.value as InquiryStatus)}
-                      className={`text-[9px] tracking-widest uppercase border px-2 py-1 outline-none transition-colors ${
+                      className={`text-[9px] tracking-widest uppercase border px-2 py-1 outline-none transition-colors mb-4 block w-full ${
                         inq.status === 'New' ? 'border-[#C6A15B] text-[#C6A15B] bg-[#C6A15B]/5' : 
                         inq.status === 'Booked' ? 'border-green-600 text-green-600 bg-green-50' : 
                         'border-neutral-300 text-neutral-600'
@@ -108,15 +117,9 @@ const Dashboard: React.FC = () => {
                       <option value="Booked">BOOKED</option>
                       <option value="Closed">CLOSED</option>
                     </select>
-                  </td>
-                  <td className="p-6">
-                    <textarea 
-                      placeholder="ADD INTERNAL NOTE..."
-                      value={inq.internalNotes}
-                      onChange={(e) => updateNotes(inq.id, e.target.value)}
-                      className="w-full bg-transparent border-none text-[11px] font-light resize-none outline-none focus:ring-0"
-                      rows={2}
-                    />
+                    <div className="text-[9px] text-[#7A7A7A] font-light">
+                      {inq.internalNotes || "No logistical notes provided."}
+                    </div>
                   </td>
                 </tr>
               ))}

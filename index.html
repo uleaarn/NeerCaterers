@@ -23,6 +23,36 @@
         background-color: #C6A15B;
         color: white;
       }
+      
+      /* Image Skeleton Placeholder */
+      .img-skeleton {
+        background: #EAEAEA;
+        position: relative;
+        overflow: hidden;
+      }
+      .img-skeleton::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        animation: shimmer 2s infinite;
+      }
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      
+      /* Progressive Image Loading */
+      .progressive-img {
+        opacity: 0;
+        transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .progressive-img.is-loaded {
+        opacity: 1;
+      }
     </style>
   <script type="importmap">
 {

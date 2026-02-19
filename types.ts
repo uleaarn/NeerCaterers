@@ -57,10 +57,14 @@ export interface Inquiry {
   phone: string;
   eventType: string;
   eventDate: string;
-  guestCount: number;
+  guestCount: string;
   location: string;
+  natureOfEvent: string;
+  serviceStyle: string;
+  dietaryMandates: string;
+  cuisines: string[];
+  internalNotes: string;
   status: InquiryStatus;
   assignedTo: string;
-  internalNotes: string;
   timestamp: string;
 }

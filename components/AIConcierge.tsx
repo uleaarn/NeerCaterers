@@ -1,10 +1,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getConciergeResponse } from '../services/geminiService';
 import { Message } from '../types';
 
 const AIConcierge: React.FC = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Good day. I am the Neer Catering Concierge. How may I assist you with your upcoming event strategy?' }
@@ -39,6 +40,36 @@ const AIConcierge: React.FC = () => {
     return keywords.some(k => content.toLowerCase().includes(k));
   };
 
+  /**
+   * Helper to render message text with interactive links.
+   * Detects patterns like #/contact and renders them as Link components.
+   * Closes the concierge on click to reveal the target page.
+   */
+  const renderMessageContent = (content: string) => {
+    // Matches internal hash routes like #/contact, #/cuisines etc.
+    // Handles surrounding punctuation by ensuring we only match the route itself.
+    const hashRouteRegex = /(#\/[a-zA-Z0-9\-_/]+)/g;
+    const parts = content.split(hashRouteRegex);
+
+    return parts.map((part, i) => {
+      if (part.match(hashRouteRegex)) {
+        // Strip the hash for the Router 'to' prop
+        const route = part.substring(1);
+        return (
+          <Link
+            key={i}
+            to={route}
+            onClick={() => setIsOpen(false)}
+            className="text-[#C6A15B] underline underline-offset-4 decoration-[#C6A15B]/40 hover:decoration-[#C6A15B] transition-all font-medium inline-block"
+          >
+            {part}
+          </Link>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <div className="fixed bottom-8 right-8 z-[100] font-sans">
       {!isOpen && (
@@ -70,16 +101,16 @@ const AIConcierge: React.FC = () => {
                 <div className={`max-w-[85%] p-4 text-xs leading-relaxed font-light ${
                   msg.role === 'user' 
                     ? 'bg-[#C6A15B]/10 text-[#1C1C1C] border border-[#C6A15B]/20' 
-                    : 'bg-white text-[#1C1C1C] border border-[#1C1C1C]/5'
+                    : 'bg-white text-[#1C1C1C] border border-[#1C1C1C]/5 whitespace-pre-wrap'
                 }`}>
-                  {msg.content}
+                  {renderMessageContent(msg.content)}
                 </div>
                 {msg.role === 'assistant' && i === messages.length - 1 && isMenuRelated(msg.content) && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     <button 
                       onClick={() => {
                         setIsOpen(false);
-                        window.location.hash = '/menu';
+                        navigate('/menu');
                       }}
                       className="text-[9px] tracking-widest uppercase px-3 py-2 bg-[#1C1C1C] text-white hover:bg-black transition-all"
                     >
@@ -113,12 +144,12 @@ const AIConcierge: React.FC = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Inquire here..."
-                className="flex-grow text-xs outline-none py-2 font-light"
+                className="flex-grow text-xs outline-none py-2 font-light text-[#1C1C1C] placeholder:text-[#7A7A7A] caret-[#C6A15B] bg-transparent focus:text-[#1C1C1C]"
               />
               <button 
                 onClick={() => handleSend()}
                 disabled={isLoading}
-                className="text-[10px] tracking-widest uppercase text-[#C6A15B] font-medium"
+                className="text-[10px] tracking-widest uppercase text-[#C6A15B] font-medium disabled:opacity-50"
               >
                 Send
               </button>

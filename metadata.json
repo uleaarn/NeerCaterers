@@ -1,7 +1,5 @@
 {
-  "name": "Neer Caterers - Executive Event Catering",
-  "description": "Premium large-scale catering service for New Jersey, New York, and Pennsylvania, specializing in operational excellence and multi-cuisine mastery.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "name": "Neer Caterers — Executive Event Catering",
+  "description": "Premium large-scale catering for weddings, corporate events, and private gatherings across NJ, NY, and PA.",
+  "requestFramePermissions": []
 }

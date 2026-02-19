@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ const Footer: React.FC = () => {
         {/* Contact Column */}
         <div className="col-span-1">
           <h4 className="text-[10px] uppercase tracking-[0.3em] text-[#7A7A7A] mb-8 font-medium">Inquiries</h4>
-          <p className="text-lg font-serif">973.555.0123</p>
+          <p className="text-lg font-serif">551.380.8009</p>
           <p className="text-[#7A7A7A] text-sm mt-2 font-light hover:text-[#C6A15B] transition-colors">
             <a href="mailto:events@neercaterers.com">events@neercaterers.com</a>
           </p>
@@ -68,7 +69,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-4 md:gap-12 items-center">
           <span className="text-white/30 font-light">&copy; {new Date().getFullYear()} Neer Caterers Production Group.</span>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-[#C6A15B] transition-colors">Privacy Protocol</a>
+            <Link to="/privacy" className="hover:text-[#C6A15B] transition-colors">Privacy Protocol</Link>
             <a href="#" className="hover:text-[#C6A15B] transition-colors">Accessibility Standards</a>
           </div>
         </div>
